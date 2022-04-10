@@ -5,14 +5,16 @@ const helmet = require("helmet");
 const session = require("express-session");
 const cors = require("cors");
 
-const dbName = process.env.DB_NAME;
-const dbConn = require("./db/conn.js");
+// const dbName = process.env.DB_NAME;
+// const dbConn = require("./db/conn.js");
+const dbo = require("./db/connection.js");
 
 const app = express();
 
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+app.use(require("./routes/routes"));
 
 const baseLimiter = rateLimit({
 	windowMs: 15 * 60 * 1000, // 15 minutes
@@ -118,6 +120,15 @@ app.get("/authenticated", (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log("Starting server on port: ", PORT);
+// perform the database connection when the server starts
+dbo.connectToServer(function (err) {
+    if (err) {
+        console.log(err);
+        process.exit();
+    }
+
+    app.listen(PORT, () => {
+        console.log("Starting server on port: ", PORT);
+    });
 });
+
