@@ -1,9 +1,15 @@
 require("dotenv").config();
+require("rootpath")();
+
 const express = require("express");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const session = require("express-session");
+
 const cors = require("cors");
+
+const jwt = require('_helpers/jwt');
+const errorHandler = require('_helpers/error-handler');
 
 // const dbName = process.env.DB_NAME;
 // const dbConn = require("./db/conn.js");
@@ -14,6 +20,11 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 app.use(cors());
+app.use(jwt());
+
+app.use("/users", require("./users/users.controller"));
+app.use(errorHandler);
+
 app.use(require("./routes/routes"));
 
 const baseLimiter = rateLimit({
@@ -131,4 +142,3 @@ dbo.connectToServer(function (err) {
         console.log("Starting server on port: ", PORT);
     });
 });
-

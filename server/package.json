@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "node app.js",
+    "start:dev": "nodemon app.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -13,11 +14,14 @@
     "express-rate-limit": "^6.3.0",
     "express-session": "^1.17.2",
     "helmet": "^5.0.2",
-    "mongodb": "^4.5.0"
+    "mongodb": "^4.5.0",
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "rootpath": "^0.1.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.0"
   },
   "author": "vchivu",
-  "license": "ISC"
+  "license": "MIT"
 }
