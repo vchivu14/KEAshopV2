@@ -6,8 +6,7 @@ const router = require("express").Router();
 let mongo = require("mongodb");
 
 // This will be our connection to the database.
-const dbo = require("../db/connection.js");
-
+const dbo = require("../_db/connection.js");
 
 // CRUD OPERATIONS
 

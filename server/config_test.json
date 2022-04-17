@@ -1,0 +1,11 @@
+{
+    "emailFrom": "info@your_node_adventure.com",
+    "smtpOptions": {
+        "host": "",
+        "port": 587,
+        "auth": {
+            "user": "",
+            "pass": ""
+        }
+    }
+}
