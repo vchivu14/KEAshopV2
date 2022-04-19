@@ -22,7 +22,7 @@
   // };
 
   // We will declare a loginResponse variable that we can optionally save in the local storage of the browser
-  //    or in a svelte store and access from anywhere & a loding variable for interactive UI while logging in.
+  //    or in a svelte store and access from anywhere & variable named loading used for interactive UI while logging in.
   let loading;
   let loginResponse = {
     error: null,
@@ -44,7 +44,7 @@
       },
       { withCredentials: true }
     );
-      
+
     if (response.statusText !== "OK") {
       loginResponse.error = "Bad Credentials";
       loading = false;
@@ -59,8 +59,11 @@
       };
       let _user = {
         id: loginResponse.profile.id,
-        fullname: loginResponse.profile.lastName + " " + loginResponse.profile.firstName,
-        token: loginResponse.profile.jwtToken
+        fullname:
+          loginResponse.profile.lastName +
+          " " +
+          loginResponse.profile.firstName,
+        token: loginResponse.profile.jwtToken,
       };
       localStorage.setItem("user", JSON.stringify(_user));
       user.set(_user);
@@ -68,7 +71,6 @@
       await navigate("/", { replace: true });
     }
   };
-
 </script>
 
 <main class="form-signin">

@@ -51,7 +51,7 @@ input:disabled {
 
 button {
   color: #333;
-  background-color: #f4f4f4;
+  background-color:#be6283;
   outline: none;
 }
 
@@ -103,6 +103,7 @@ button:focus {
   color: #be6283;
   background: rgba(190, 98, 131, 0.3);
 }
+
 .success {
   font-size: 24px;
   text-align: center;

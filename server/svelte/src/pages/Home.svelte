@@ -1,7 +1,14 @@
 <script>
     import { user } from "../stores/user.js";
-    import { Link } from "svelte-routing";
+    import { Link, navigate } from "svelte-routing";
+	import axios from "axios";
 
+	$: logout = async () => {
+        await axios.post('accounts/logout');
+        axios.defaults.headers.common['Authorization'] = '';
+		localStorage.clear();
+        await navigate('/login');
+    }
 </script>
 
 <header class="p-3 bg-dark text-white">
@@ -14,16 +21,19 @@
 			</ul>
 			<div class="text-end">
 				{#if $user}
+					<button on:click={logout} type="submit">Logout</button>
 					<li class="btn btn-outline-light me-2">
-						<Link to="logout">Logout</Link>
-					</li>
-                    <li class="btn btn-outline-light me-2">
 						<Link to="profile">Profile</Link>
 					</li>
 				{/if}
+				{#if !$user}
 				<li class="btn btn-outline-light me-2">
 					<Link to="login">Login</Link>
 				</li>
+				<li class="btn btn-outline-light me-2">
+					<Link to="register">Register</Link>
+				</li>
+				{/if}
 			</div>
 		</div>
 	</div>

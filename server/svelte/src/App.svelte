@@ -4,6 +4,7 @@
     import Home from "./pages/Home.svelte";
     import Profile from "./pages/Profile.svelte";
     import Login from "./pages/Login.svelte";
+    import Signup from "./pages/Signup.svelte";
 </script>
 
 <!-- Router: This component is used for providing extra routing information to every Link and Route components inside it. 
@@ -14,5 +15,6 @@
 <Router>
     <Route path="/" component={Home}/>
     <Route path="/login" component={Login}/>
+    <Route path="/register" component={Signup}/>
     <ProtectedRoute path="/profile" component={Profile}/>
 </Router>
