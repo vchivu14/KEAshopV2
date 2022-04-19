@@ -87,8 +87,8 @@ router.get("/home", (req, res) => {
 
 // On successful authentication the authenticate method generates a JWT using the jsonwebtoken package which generates
 //  a token that is digitally signed using a secret key stored as an env variable. 
-// The JWT token is returned to the client application which must include it in the HTTP Authorization header of 
-//  subsequent requests to secure routes.
+// The JWT refresh token is returned to the client application which will include it in a secure cookie
+//  in every subsequent requests to the server APIs.
 
 // async function authenticate({ email, password }) {
 //     const user = users.find(u => u.email === email && u.password === password);

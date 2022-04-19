@@ -14,7 +14,7 @@ router.post("/authenticate", authenticate);
 router.post('/refresh-token', refreshToken);
 router.get('/:id', authorize(), getById);
 router.put('/:id', authorize(), update);
-router.post('/logout', authorize(), revokeToken);
+router.get('/logout', revokeToken);
 router.post('/forgot-password', forgotPassword);
 router.post('/validate-reset-token', validateResetToken);
 router.post('/reset-password', resetPassword);

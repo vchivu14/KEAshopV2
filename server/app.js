@@ -1,29 +1,19 @@
 // ENTRY POINT TO OUR APPLICATION
 //  configures appliation middleware, binds controllers to routes and starts the Express web server.
-
 require("dotenv").config();
-// Using this module you just need to remember your own project directory structure and 
-//  make all require absolute to the project root directory
-require("rootpath")();
 
 const express = require("express");
 const path = require("path");
 const cookieParser = require('cookie-parser');
-const cors = require("cors");
 const errorHandler = require('./_middleware/error-handler');
 const rateLimit = require("express-rate-limit");
 const dbo = require("./_db/connection.js");
 
 const app = express();
 
-app.get("/", (req, res) => {
-    res.sendFile( path.join(__dirname, "svelte", "public", "index.html") )
-});
-
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "svelte", "public")));
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ origin: (origin, callback) => callback(null, true), credentials: true }));
 
 app.use("/auth", require("./session/test"));
 

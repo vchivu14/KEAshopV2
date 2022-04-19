@@ -119,21 +119,15 @@ function randomTokenString() {
 
 // helper function
 function basicDetails(account) {
-    const { id, title, firstName, lastName, email, created, updated, isVerified } = account;
-    return { id, title, firstName, lastName, email, created, updated, isVerified };
+    const { id, title, firstName, lastName, email, created, updated } = account;
+    return { id, title, firstName, lastName, email, created, updated };
 }
 
-async function refreshToken({ token, ipAddress }) {
-    // x-tra security if refresh token is used from another IP address than the one was created for
-    const rToken = await db.RefreshToken.findOne({ token: token, createdByIp: ipAddress})
-    if (rToken === null) {
-        revokeToken({ token, ipAddress });
-        throw "You logged in from a different computer, please reauthenticate!"
-    }
-    const refreshToken = await getRefreshToken(token);
-    // console.log(refreshToken);
-    // if the above expression doesn't end well this is where it stops
+// JWT authentication with refresh tokens.
 
+async function refreshToken({ token, ipAddress }) {
+    const refreshToken = await getRefreshToken(token);
+    
     // we extract the account object by destructuring the refresh token
     const { account } = refreshToken;
     // console.log(account);
@@ -141,7 +135,6 @@ async function refreshToken({ token, ipAddress }) {
     // we replace the old refresh token with a new one and save it
     const newRefreshToken = generateRefreshToken(account, ipAddress);
     
-
     // we make this operation for further analysis
     refreshToken.revoked = Date.now();
     refreshToken.revokedByIp = ipAddress;
@@ -149,7 +142,7 @@ async function refreshToken({ token, ipAddress }) {
     await refreshToken.save();
     await newRefreshToken.save();
 
-    // if all goes well generatea  new JWT
+    // if all goes well we generate a new JWT access token for this account which we will include in the response body
     const jwtToken = generateJwtToken(account);
 
     // return basic details and tokens
@@ -169,9 +162,10 @@ async function getRefreshToken(token) {
     //  account: { type: Schema.Types.ObjectId, ref: "Account"}
     // So this will find the object we are looking for and populate it with the referenced object
     const refreshToken = await db.RefreshToken.findOne({ token }).populate("account");
-    // If the refresh token doesn't exist or it is not active we throw an error
-    if (!refreshToken || !refreshToken.isActive) throw "Invalid token";
-    return refreshToken;
+    if (refreshToken && (refreshToken.isActive)) return refreshToken;
+    else {
+        throw "Invalid token";
+    }
 }
 
 async function getById(id) {
@@ -191,7 +185,7 @@ async function update(id, params) {
     const account = await getAccount(id);
 
     // validate (if email was changed)
-    if (params.email && account.email !== params.email && await db.Account.findOne({ email: params.email })) {
+    if (account.email !== params.email && await db.Account.findOne({ email: params.email })) {
         throw `Email ${params.email} is already taken`;
     }
 
@@ -208,7 +202,7 @@ async function update(id, params) {
     return basicDetails(account);
 }
 
-async function forgotPassword({ email}, origin) {
+async function forgotPassword({ email }, origin) {
     const account = await db.Account.findOne({ email });
 
     // always return ok response to prevent email duplication
@@ -271,8 +265,6 @@ async function resetPassword({ token, password }) {
 
 async function revokeToken({ token, ipAddress }) {
     const refreshToken = await getRefreshToken(token);
-    // console.log(refreshToken);
-    // revoke token and save
     refreshToken.revoked = Date.now();
     refreshToken.revokedByIp = ipAddress;
     await refreshToken.save();

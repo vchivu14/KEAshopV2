@@ -8,7 +8,7 @@
 <script>
   import axios from "axios";
   import { user } from "../stores/user";
-  import { navigate } from "svelte-routing";
+  import { navigate, Link } from "svelte-routing";
 
   // In the script we declare two variables email and password to handle the bindings to the input fields of the form.
   let email = "";
@@ -49,9 +49,9 @@
       loginResponse.error = "Bad Credentials";
       loading = false;
     } else {
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${response.data.token}`;
+      // axios.defaults.headers.common[
+      //   "Authorization"
+      // ] = `Bearer ${response.data.token}`;
       loginResponse = {
         ...loginResponse,
         success: true,
@@ -88,6 +88,8 @@
       <!-- svelte-ignore a11y-label-has-associated-control -->
       <label>Password</label>
     </div>
+    
+    <p><Link to="/forgot-password">Forgot Password?</Link></p>
 
     <button class="w-100 btn btn-lg btn-primary" type="submit">
       {#if loading}Logging in...{:else}Log in 🔒{/if}

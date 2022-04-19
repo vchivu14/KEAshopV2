@@ -3,7 +3,7 @@
 //  Now it is used by the account service to send password reset emails.
 
 const nodemailer = require("nodemailer");
-const config = require("config.json");
+const config = require("../config.json");
 
 module.exports = sendEmail;
 
