@@ -1,5 +1,4 @@
 # KEAshopV2
-This is a mandatory project for semester IV
 
 ## Get started
 *You will need to have [Node.js](https://nodejs.org) installed.*
@@ -12,6 +11,7 @@ cd KEAshopV2
 
 2nd: install the dependencies for the backend
 ```bash
+cd server
 npm i
 ```
 
