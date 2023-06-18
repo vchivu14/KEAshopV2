@@ -1,4 +1,5 @@
-# KEAshopV2
+# E-shop
+This is an exercise web app for KEA Copenhagen, Computer Science
 
 ## Get started
 *You will need to have [Node.js](https://nodejs.org) installed.*
