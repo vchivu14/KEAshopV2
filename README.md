@@ -1,5 +1,5 @@
 # E-shop
-This is an exercise web app for KEA Copenhagen, Computer Science
+<h3>This is an exercise web app for KEA Copenhagen, Computer Science</h3> 
 
 ## Get started
 *You will need to have [Node.js](https://nodejs.org) installed.*
